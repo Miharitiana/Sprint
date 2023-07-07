@@ -16,7 +16,7 @@ import etu1826.frameworki.Utilitaire;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.logging0.Level;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import traitment.Fonction;
@@ -57,12 +57,10 @@ public class Frontservlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             Utilitaire u=new Utilitaire();
-            
-            String url=request.getPathInfo();
+            String url=request.getRequestURI();
 
             String urlQuery=request.getQueryString();   //url apres le ?
         
-
             String annotation=u.getAnnotation(url);
             Fonction fonction=new Fonction();
            
