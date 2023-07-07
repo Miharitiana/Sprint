@@ -4,15 +4,20 @@
  */
 package etu1826_framework_servlet;
 
+import etu1826.framework.Mapping;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 
-
-public class UrlSerrvlet extends HttpServlet {
+/**
+ *
+ * @author MSI
+ */
+public class MyfrontServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -23,17 +28,13 @@ public class UrlSerrvlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+      HashMap<String,Mapping> MappingUris;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-        
-            StringBuffer url = request.getRequestURL();
-            
-            boolean http;
-            
-            out.print(url);
-            
+            /* TODO output your page here. You may use following sample code. */
+          
         }
     }
 
