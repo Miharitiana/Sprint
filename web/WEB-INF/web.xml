@@ -4,9 +4,17 @@
         <servlet-name>UrlSerrvlet</servlet-name>
         <servlet-class>etu1826_framework_servlet.UrlSerrvlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MyfrontServlet</servlet-name>
+        <servlet-class>etu1826_framework_servlet.MyfrontServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UrlSerrvlet</servlet-name>
         <url-pattern>/UrlSerrvlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyfrontServlet</servlet-name>
+        <url-pattern>/MyfrontServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
