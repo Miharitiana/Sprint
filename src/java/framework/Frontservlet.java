@@ -12,9 +12,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import etu1883.frameworki.Utilitaire;
+import etu1826.frameworki.Utilitaire;
+import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.logging.Level;
+import java.util.Set;
+import java.util.logging0.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import traitment.Fonction;
@@ -52,18 +54,48 @@ public class Frontservlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
+
         try (PrintWriter out = response.getWriter()) {
             Utilitaire u=new Utilitaire();
+            
             String url=request.getPathInfo();
+
+            String urlQuery=request.getQueryString();   //url apres le ?
+        
+
             String annotation=u.getAnnotation(url);
             Fonction fonction=new Fonction();
            
             try{
                 Mapping mapping=fonction.getMapping(annotation, MappingUrls);
-                ModelView invomethode=fonction.invocationMethode(annotation, MappingUrls);
-                out.println("methode: /"+ invomethode.getView());
+                //recuperation valeur input//  
+                    Class classe=fonction.getClass(annotation,MappingUrls);
+                    Field[] listeAttribut=classe.getDeclaredFields();
+                    Object instance=classe.newInstance();
+
+                    for(int i=0;i<listeAttribut.length;i++){
+                        String attEnvoie=request.getParameter(listeAttribut[i].getName());
+                        if(listeAttribut[i].getType().getSimpleName().equals("String") && attEnvoie!=null){
+                            instance.getClass().getMethod("set"+listeAttribut[i].getName(),String.class).invoke(instance,attEnvoie);
+                        }
+                        else if(listeAttribut[i].getType().getSimpleName().equals("double") && attEnvoie!=null){
+                            instance.getClass().getMethod("set"+listeAttribut[i].getName(),double.class).invoke(instance,Double.parseDouble(attEnvoie));
+                        }
+                        else if(listeAttribut[i].getType().getSimpleName().equals("int") && attEnvoie!=null){
+                            instance.getClass().getMethod("set"+listeAttribut[i].getName(),int.class).invoke(instance,Integer.parseInt(attEnvoie));
+                        }
+                    }
+                //recuperation valeur input//
+                String[] listeArgument=u.getArgument(urlQuery);
+                ModelView invomethode=fonction.invocationMethode(annotation, MappingUrls,instance,listeArgument);
                 HashMap<String,Object> mapView=invomethode.getData();
-                request.getSession().setAttribute("attribut",mapView.get(annotation));
+                Set<String> key=mapView.keySet();
+                String[] listeCle=key.toArray(new String[key.size()]);
+                
+                for(int i=0;i<listeCle.length;i++){
+                    request.getSession().setAttribute(listeCle[i],mapView.get(listeCle[listeCle.length-1]));
+                }
+                
                 response.sendRedirect(request.getContextPath()+"/"+invomethode.getView());
             }catch(Exception ex){
                 out.print(ex);
