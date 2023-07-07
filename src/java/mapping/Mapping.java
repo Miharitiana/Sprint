@@ -1,6 +1,5 @@
 package mapping;
 
- sprint4
 public class Mapping{
     String ClassName ;
     String Method;
@@ -21,8 +20,7 @@ public class Mapping{
     }
     public void setMethod( String Method){
         this.ClassName=Method;
-    }
-
+    }}
 
 public class Mapping {
     String className;

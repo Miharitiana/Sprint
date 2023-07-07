@@ -1,5 +1,15 @@
 package myservlet;
 
+sprint5
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.HashMap;
+import java.lang.reflect.*;
+
  sprint4
 import java.io.*;
 import jakarta.servlet.ServletException;
@@ -8,7 +18,6 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import mapping.Mapping;
 import utile.Utile;
 public class MyFrontServlet extends HttpServlet{
@@ -33,9 +42,24 @@ public class MyFrontServlet extends HttpServlet{
             String url=request.getPathInfo();  
             try {
                 out.println("resultat : "+MappingUrls.get(url).getClassName());
+sprint5
+                out.println("resultat : "+MappingUrls.get(url).getMethod());
                 out.println("url : "+url);
+                Class A=Class.forName(MappingUrls.get(url).getClassName());
+                Method method=A.getMethod(MappingUrls.get(url).getMethod());
+                Object objet=  A.newInstance();
+                out.println(method.invoke(objet));
+                //  response.sendRedirect("index.jsp");
+                // RequestDispatcher dispat = request.getRequestDispatcher("../index.jsp");
+                // dispat.forward(request, response);
+
             }catch (Exception e){
                 out.println("ce cle n'existe pas , veillez verifie");
+                out.println(e);
+
+                out.println("url : "+url);
+            }catch (Exception e){
+                out.println("ce cle n'existe pas , veillez verifie");i
             }
 
     }
@@ -59,6 +83,9 @@ public class MyFrontServlet extends HttpServlet{
         }
     }
 
+ sprint5
+}
+=======
 }
 
 import utile.Utile;
